@@ -1,6 +1,9 @@
 declare type Todo = {
   value: string;
   readonly id: number;
-  checked: boolean;
+  started: boolean;
+  finished: boolean;
+  deadline: Date;
+  priority: "高" | "中" | "低";
   removed: boolean;
 };

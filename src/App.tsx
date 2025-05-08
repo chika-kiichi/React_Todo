@@ -1,27 +1,16 @@
 import { useEffect, useState } from "react";
+import AddTask from "./components/AddTask";
 
 export const App = () => {
-  const [text, setText] = useState("");
+  const [task, setTask] = useState("");
   const [todos, setTodos] = useState<Todo[]>(() => {
     const tasks: Todo[] = JSON.parse(localStorage.getItem("tasks") || "[]");
     return tasks;
   });
+  const [deadline, setDeadline] = useState<Date>(new Date());
+  const [priority, setPriority] = useState<"高" | "中" | "低">("中");
   const [filter, setFilter] = useState<Filter>("all");
 
-  const handleSubmit = () => {
-    if (!text) return;
-    const newTodo: Todo = {
-      value: text,
-      id: new Date().getTime(),
-      checked: false,
-      removed: false,
-    };
-    setTodos((todos) => [newTodo, ...todos]);
-    setText("");
-  };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
-  };
   const handleTodo = <K extends keyof Todo, V extends Todo[K]>(
     id: number,
     key: K,
@@ -53,10 +42,10 @@ export const App = () => {
         return !todo.removed;
       case "checked":
         // 完了済 **かつ** 削除されていないもの
-        return todo.checked && !todo.removed;
+        return todo.finished && !todo.removed;
       case "unchecked":
         // 未完了 **かつ** 削除されていないもの
-        return !todo.checked && !todo.removed;
+        return !todo.finished && !todo.removed;
       case "removed":
         // 削除済みのもの
         return todo.removed;
@@ -87,15 +76,15 @@ export const App = () => {
         </button>
       ) : (
         filter !== "checked" && (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}
-          >
-            <input type="text" value={text} onChange={(e) => handleChange(e)} />
-            <input type="submit" value="追加" onSubmit={handleSubmit} />
-          </form>
+          <AddTask
+            setTodos={setTodos}
+            task={task}
+            setTask={setTask}
+            deadline={deadline}
+            setDeadline={setDeadline}
+            priority={priority}
+            setPriority={setPriority}
+          ></AddTask>
         )
       )}
       <ul>
@@ -105,12 +94,18 @@ export const App = () => {
               <input
                 type="checkbox"
                 disabled={todo.removed}
-                checked={todo.checked}
-                onChange={() => handleTodo(todo.id, "checked", !todo.checked)}
+                checked={todo.finished}
+                onChange={() => handleTodo(todo.id, "finished", !todo.finished)}
+              />
+              <input
+                type="checkbox"
+                disabled={todo.removed}
+                checked={todo.started}
+                onChange={() => handleTodo(todo.id, "started", !todo.started)}
               />
               <input
                 type="text"
-                disabled={todo.checked || todo.removed}
+                disabled={todo.finished || todo.removed}
                 value={todo.value}
                 onChange={(e) => handleTodo(todo.id, "value", e.target.value)}
               />
