@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AddTask from "./components/AddTask";
+import Task from "./components/Task";
 
 export const App = () => {
   const [task, setTask] = useState("");
@@ -87,37 +88,24 @@ export const App = () => {
           ></AddTask>
         )
       )}
-      <ul>
-        {filteredTodos.map((todo) => {
-          return (
-            <li key={todo.id}>
-              <input
-                type="checkbox"
-                disabled={todo.removed}
-                checked={todo.finished}
-                onChange={() => handleTodo(todo.id, "finished", !todo.finished)}
-              />
-              <input
-                type="checkbox"
-                disabled={todo.removed}
-                checked={todo.started}
-                onChange={() => handleTodo(todo.id, "started", !todo.started)}
-              />
-              <input
-                type="text"
-                disabled={todo.finished || todo.removed}
-                value={todo.value}
-                onChange={(e) => handleTodo(todo.id, "value", e.target.value)}
-              />
-              <button
-                onClick={() => handleTodo(todo.id, "removed", !todo.removed)}
-              >
-                {todo.removed ? "復元" : "削除"}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>完了</th>
+            <th>開始</th>
+            <th>タスク</th>
+            <th>期限</th>
+            <th>優先度</th>
+            <th>編集</th>
+            <th>削除</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredTodos.map((todo) => {
+            return <Task key={todo.id} todo={todo} handleTodo={handleTodo} />;
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
