@@ -8,7 +8,7 @@ export const App = () => {
     const tasks: Todo[] = JSON.parse(localStorage.getItem("tasks") || "[]");
     return tasks;
   });
-  const [deadline, setDeadline] = useState<Date>(new Date());
+  const [deadline, setDeadline] = useState<string>(JSON.stringify(new Date()));
   const [priority, setPriority] = useState<"高" | "中" | "低">("中");
   const [filter, setFilter] = useState<Filter>("all");
 

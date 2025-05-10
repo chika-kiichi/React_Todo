@@ -9,6 +9,7 @@ export const Task = ({
     value: V
   ) => void;
 }) => {
+  const deadlineDate = new Date(todo.deadline);
   return (
     <tr>
       <td>
@@ -28,10 +29,10 @@ export const Task = ({
         />
       </td>
       <td>{todo.value}</td>
-      <td>{`${todo.deadline.getFullYear()}-${(
+      <td>{`${deadlineDate.getFullYear()}-${(
         "0" +
-        (todo.deadline.getMonth() + 1)
-      ).slice(-2)}-${("0" + todo.deadline.getDate()).slice(-2)}`}</td>
+        (deadlineDate.getMonth() + 1)
+      ).slice(-2)}-${("0" + deadlineDate.getDate()).slice(-2)}`}</td>
       <td>{todo.priority}</td>
       <td>編集</td>
       <td>

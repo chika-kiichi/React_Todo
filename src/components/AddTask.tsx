@@ -10,8 +10,8 @@ export const AddTask = ({
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   task: string;
   setTask: React.Dispatch<React.SetStateAction<string>>;
-  deadline: Date;
-  setDeadline: React.Dispatch<React.SetStateAction<Date>>;
+  deadline: string;
+  setDeadline: React.Dispatch<React.SetStateAction<string>>;
   priority: "高" | "中" | "低";
   setPriority: React.Dispatch<React.SetStateAction<"高" | "中" | "低">>;
 }) => {
@@ -22,15 +22,16 @@ export const AddTask = ({
       id: new Date().getTime(),
       started: false,
       finished: false,
-      deadline: deadline || new Date(),
+      deadline: deadline || JSON.stringify(new Date()),
       priority: priority,
       removed: false,
     };
     setTodos((todos) => [newTodo, ...todos]);
     setTask("");
-    setDeadline(new Date());
+    setDeadline(JSON.stringify(new Date()));
     setPriority("中");
   };
+  const deadlineDate = new Date(deadline);
   return (
     <>
       <form
@@ -46,12 +47,12 @@ export const AddTask = ({
         />
         <input
           type="date"
-          value={`${deadline.getFullYear()}-${(
+          value={`${deadlineDate.getFullYear()}-${(
             "0" +
-            (deadline.getMonth() + 1)
-          ).slice(-2)}-${("0" + deadline.getDate()).slice(-2)}`}
+            (deadlineDate.getMonth() + 1)
+          ).slice(-2)}-${("0" + deadlineDate.getDate()).slice(-2)}`}
           onChange={(e) => {
-            const date = new Date(e.target.value);
+            const date = JSON.stringify(new Date(e.target.value));
             setDeadline(date);
           }}
         />

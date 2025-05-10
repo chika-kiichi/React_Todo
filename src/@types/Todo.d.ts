@@ -3,7 +3,7 @@ declare type Todo = {
   readonly id: number;
   started: boolean;
   finished: boolean;
-  deadline: Date;
+  deadline: string;
   priority: "高" | "中" | "低";
   removed: boolean;
 };
