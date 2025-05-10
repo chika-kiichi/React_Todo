@@ -8,7 +8,14 @@ export const App = () => {
     const tasks: Todo[] = JSON.parse(localStorage.getItem("tasks") || "[]");
     return tasks;
   });
-  const [deadline, setDeadline] = useState<string>(JSON.stringify(new Date()));
+  const [deadline, setDeadline] = useState<string>(() => {
+    const date = new Date();
+    const dateString = `${date.getFullYear()}-${(
+      "0" +
+      (date.getMonth() + 1)
+    ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+    return dateString;
+  });
   const [priority, setPriority] = useState<"高" | "中" | "低">("中");
   const [filter, setFilter] = useState<Filter>("all");
 

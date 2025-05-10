@@ -26,9 +26,14 @@ export const AddTask = ({
       priority: priority,
       removed: false,
     };
+    const date = new Date();
+    const dateString = `${date.getFullYear()}-${(
+      "0" +
+      (date.getMonth() + 1)
+    ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
     setTodos((todos) => [newTodo, ...todos]);
     setTask("");
-    setDeadline(JSON.stringify(new Date()));
+    setDeadline(dateString);
     setPriority("中");
   };
   const deadlineDate = new Date(deadline);
@@ -52,8 +57,12 @@ export const AddTask = ({
             (deadlineDate.getMonth() + 1)
           ).slice(-2)}-${("0" + deadlineDate.getDate()).slice(-2)}`}
           onChange={(e) => {
-            const date = JSON.stringify(new Date(e.target.value));
-            setDeadline(date);
+            const date = new Date(e.target.value);
+            const dateString = `${date.getFullYear()}-${(
+              "0" +
+              (date.getMonth() + 1)
+            ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+            setDeadline(dateString);
           }}
         />
         <select
