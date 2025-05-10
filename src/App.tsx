@@ -42,25 +42,31 @@ export const App = () => {
     // シャローコピーで事足りる
     setTodos((todos) => todos.filter((todo) => !todo.removed));
   };
-  const filteredTodos = todos.filter((todo) => {
-    // filter ステートの値に応じて異なる内容の配列を返す
-    switch (filter) {
-      case "all":
-        // 削除されていないもの
-        return !todo.removed;
-      case "checked":
-        // 完了済 **かつ** 削除されていないもの
-        return todo.finished && !todo.removed;
-      case "unchecked":
-        // 未完了 **かつ** 削除されていないもの
-        return !todo.finished && !todo.removed;
-      case "removed":
-        // 削除済みのもの
-        return todo.removed;
-      default:
-        return todo;
-    }
-  });
+  const filteredTodos = todos
+    .filter((todo) => {
+      // filter ステートの値に応じて異なる内容の配列を返す
+      switch (filter) {
+        case "all":
+          // 削除されていないもの
+          return !todo.removed;
+        case "checked":
+          // 完了済 **かつ** 削除されていないもの
+          return todo.finished && !todo.removed;
+        case "unchecked":
+          // 未完了 **かつ** 削除されていないもの
+          return !todo.finished && !todo.removed;
+        case "removed":
+          // 削除済みのもの
+          return todo.removed;
+        default:
+          return todo;
+      }
+    })
+    .sort((a, b) => {
+      const a_finished = a.finished ? 1 : 0;
+      const b_finished = b.finished ? 1 : 0;
+      return a_finished - b_finished;
+    });
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(todos));
   }, [todos]);
