@@ -29,10 +29,7 @@ export const Task = ({
         />
       </td>
       <td>{todo.value}</td>
-      <td>{`${deadlineDate.getFullYear()}-${(
-        "0" +
-        (deadlineDate.getMonth() + 1)
-      ).slice(-2)}-${("0" + deadlineDate.getDate()).slice(-2)}`}</td>
+      <td>{`${deadlineDate.getMonth() + 1}/${deadlineDate.getDate()}`}</td>
       <td>{todo.priority}</td>
       <td>編集</td>
       <td>
