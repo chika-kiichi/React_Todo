@@ -65,6 +65,11 @@ export const App = () => {
     .sort((a, b) => {
       const a_finished = a.finished ? 1 : 0;
       const b_finished = b.finished ? 1 : 0;
+      if (a_finished === b_finished) {
+        const a_deadline = new Date(a.deadline).getTime();
+        const b_deadline = new Date(b.deadline).getTime();
+        return a_deadline - b_deadline;
+      }
       return a_finished - b_finished;
     });
   useEffect(() => {
